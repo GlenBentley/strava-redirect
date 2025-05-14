@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Strava Redirect</title>
+    <script type="text/javascript">
+      // Parse query parameters (e.g., ?code=abc123)
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
+      const error = params.get("error");
+
+      if (code) {
+        // Redirect to your app's custom URL scheme with the code
+        window.location.href = `yourappscheme://auth?code=${code}`;
+      } else if (error) {
+        // Handle error if needed
+        document.body.innerText = `Error: ${error}`;
+      } else {
+        document.body.innerText = "No code or error provided.";
+      }
+    </script>
+  </head>
+  <body>
+    Redirecting to app...
+  </body>
+</html>
