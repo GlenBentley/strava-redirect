@@ -1,18 +1,62 @@
-  <html>
-  <head>
-    <script type="text/javascript">
-      // Parse ?code=... from the URL
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get('code');
-      if (code) {
-        // Redirect to your app with the code
-        window.location = 'runnersdiary://auth?code=' + code;
-      } else {
-        document.write('No code found in URL.');
-      }
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Strava Redirect</title>
+    <script>
+        // Function to handle the redirect
+        function handleRedirect() {
+            // Get the current URL
+            const url = window.location.href;
+            
+            // Extract the code from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            
+            if (code) {
+                // Redirect back to our app with the code
+                window.location.href = `runnersdiary://oauth?code=${code}`;
+            } else {
+                // If no code is present, show an error
+                document.getElementById('error').style.display = 'block';
+            }
+        }
+
+        // Run the redirect handler when the page loads
+        window.onload = handleRedirect;
     </script>
-  </head>
-  <body>
-    Redirecting...
-  </body>
-  </html>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .error {
+            display: none;
+            color: #dc3545;
+            margin-top: 1rem;
+        }
+        .loading {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="loading">Redirecting to RunnersDiary...</div>
+        <div id="error" class="error">
+            Error: No authorization code received. Please try again.
+        </div>
+    </div>
+</body>
+</html>
